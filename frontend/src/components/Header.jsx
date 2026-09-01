@@ -12,59 +12,61 @@ export default function Header({ todos = [] }) {
   const overdue = todos.filter(t => !t.completed && t.dueDate && t.dueDate < todayStr).length;
 
   return (
-    <header style={{ width: '100%' }}>
+    <header className="w-full">
       {/* Navigation bar */}
-      <div className="app-navbar">
-        <Link to="/" className="logo-container">
-          <CheckSquare className="logo-icon" size={28} />
-          <span className="logo-text">FlowTask</span>
+      <div className="flex justify-between items-center mb-6 px-6 py-4 bg-white border border-slate-200 rounded-2xl shadow-xs">
+        <Link to="/" className="flex items-center gap-3 no-underline group">
+          <CheckSquare className="text-indigo-600 group-hover:scale-105 transition-transform" size={28} />
+          <span className="text-2xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
+            FlowTask
+          </span>
         </Link>
-        <div style={{ fontSize: '14px', fontWeight: 500, opacity: 0.8 }}>
+        <div className="text-sm font-medium text-slate-500 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
           {new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' })}
         </div>
       </div>
 
       {/* Stats Dashboard Grid */}
-      <div className="stats-grid">
-        <div className="stat-card">
-          <div className="stat-icon-wrapper">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div className="flex items-center gap-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 shrink-0">
             <ClipboardList size={22} />
           </div>
-          <div className="stat-info">
-            <span className="stat-value">{total}</span>
-            <span className="stat-label">Total Tasks</span>
+          <div className="flex flex-col">
+            <span className="text-2xl font-bold text-slate-900 leading-tight">{total}</span>
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">Total Tasks</span>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon-wrapper success">
+        <div className="flex items-center gap-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 shrink-0">
             <CheckCircle2 size={22} />
           </div>
-          <div className="stat-info">
-            <span className="stat-value">
-              {completed} <span style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-muted)' }}>({total > 0 ? Math.round((completed / total) * 100) : 0}%)</span>
+          <div className="flex flex-col">
+            <span className="text-2xl font-bold text-slate-900 leading-tight">
+              {completed} <span className="text-sm font-normal text-slate-400">({total > 0 ? Math.round((completed / total) * 100) : 0}%)</span>
             </span>
-            <span className="stat-label">Completed</span>
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">Completed</span>
           </div>
         </div>
 
-        <div className="stat-card">
-          <div className="stat-icon-wrapper" style={{ backgroundColor: 'var(--primary-light)', color: 'var(--primary)' }}>
+        <div className="flex items-center gap-4 p-5 bg-white border border-slate-200 rounded-2xl shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
+          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-amber-50 text-amber-600 shrink-0">
             <Clock size={22} />
           </div>
-          <div className="stat-info">
-            <span className="stat-value">{pending}</span>
-            <span className="stat-label">Pending</span>
+          <div className="flex flex-col">
+            <span className="text-2xl font-bold text-slate-900 leading-tight">{pending}</span>
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">Pending</span>
           </div>
         </div>
 
-        <div className="stat-card" style={{ borderColor: overdue > 0 ? 'var(--priority-high)' : 'var(--border-color)' }}>
-          <div className={`stat-icon-wrapper ${overdue > 0 ? 'danger' : ''}`}>
+        <div className={`flex items-center gap-4 p-5 bg-white border rounded-2xl shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 ${overdue > 0 ? 'border-rose-300' : 'border-slate-200'}`}>
+          <div className={`flex items-center justify-center w-12 h-12 rounded-xl shrink-0 ${overdue > 0 ? 'bg-rose-50 text-rose-600' : 'bg-slate-100 text-slate-400'}`}>
             <AlertCircle size={22} />
           </div>
-          <div className="stat-info">
-            <span className="stat-value" style={{ color: overdue > 0 ? 'var(--priority-high)' : 'inherit' }}>{overdue}</span>
-            <span className="stat-label">Overdue</span>
+          <div className="flex flex-col">
+            <span className={`text-2xl font-bold leading-tight ${overdue > 0 ? 'text-rose-600' : 'text-slate-900'}`}>{overdue}</span>
+            <span className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-0.5">Overdue</span>
           </div>
         </div>
       </div>

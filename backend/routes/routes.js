@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');
-const { readTodos, writeTodos } = require('./db');
+const { readTodos, writeTodos } = require('../config/db');
 
 // helper function to generate uuid
 function generateId() {

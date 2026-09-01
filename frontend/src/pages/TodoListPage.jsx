@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
-  Search, Plus, Calendar, Trash2, ExternalLink, Filter, 
+  Search, Plus, Calendar, Trash2, ExternalLink, 
   ArrowUpDown, ListChecks, CheckSquare, PlusCircle, Folder, AlertTriangle 
 } from 'lucide-react';
 import Header from '../components/Header';
@@ -41,7 +41,7 @@ export default function TodoListPage() {
     fetchTodos();
   }, [search, status, category, priority, sortBy, order]);
 
-  // Fetch all todos once to populate Header stats accurately, and update whenever todos state updates
+  // Fetch all todos once to populate Header stats accurately
   const fetchAllTodosForStats = async () => {
     try {
       const response = await fetch(API_BASE);
@@ -177,26 +177,28 @@ export default function TodoListPage() {
   };
 
   return (
-    <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+    <div className="flex-1 flex flex-col">
       {/* Dynamic Header Metrics Dashboard */}
       <Header todos={allTodosForStats} />
 
       {/* Main Page Layout */}
-      <div className="dashboard-layout">
+      <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 items-start">
         
         {/* SIDEBAR: Create Task Form */}
-        <aside className="glass-card">
-          <h2 style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', fontSize: '20px', fontWeight: 600 }}>
-            <PlusCircle size={22} className="logo-icon" />
+        <aside className="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+          <h2 className="flex items-center gap-2.5 mb-5 text-lg font-bold text-slate-900">
+            <PlusCircle size={20} className="text-indigo-600" />
             Create Task
           </h2>
           
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label className="form-label">Task Title *</label>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+                Task Title *
+              </label>
               <input 
                 type="text" 
-                className="form-input" 
+                className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400"
                 placeholder="What needs to be done?"
                 value={newTitle}
                 onChange={e => setNewTitle(e.target.value)}
@@ -204,32 +206,38 @@ export default function TodoListPage() {
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Description</label>
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+                Description
+              </label>
               <textarea 
-                className="form-textarea" 
+                className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400 min-h-[90px] resize-y"
                 placeholder="Add some details..."
                 value={newDesc}
                 onChange={e => setNewDesc(e.target.value)}
               />
             </div>
 
-            <div className="form-row">
-              <div className="form-group">
-                <label className="form-label">Category</label>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+                  Category
+                </label>
                 <input 
                   type="text" 
-                  className="form-input" 
-                  placeholder="e.g., Work, Life"
+                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all placeholder:text-slate-400"
+                  placeholder="Work, Life"
                   value={newCategory}
                   onChange={e => setNewCategory(e.target.value)}
                 />
               </div>
 
-              <div className="form-group">
-                <label className="form-label">Priority</label>
+              <div>
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+                  Priority
+                </label>
                 <select 
-                  className="form-select"
+                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer"
                   value={newPriority}
                   onChange={e => setNewPriority(e.target.value)}
                 >
@@ -240,46 +248,51 @@ export default function TodoListPage() {
               </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Due Date</label>
+            <div>
+              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">
+                Due Date
+              </label>
               <input 
                 type="date" 
-                className="form-input"
+                className="w-full px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all cursor-pointer"
                 value={newDueDate}
                 onChange={e => setNewDueDate(e.target.value)}
               />
             </div>
 
             {/* Subtask checklist builder */}
-            <div className="checklist-builder">
-              <label className="form-label" style={{ fontSize: '13px', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '8px' }}>
-                <ListChecks size={16} /> Checklist Subtasks
+            <div className="border border-dashed border-slate-200 bg-slate-50/50 p-3.5 rounded-xl">
+              <label className="text-xs font-semibold text-slate-600 flex items-center gap-1.5 mb-2">
+                <ListChecks size={15} className="text-indigo-600" /> Checklist Subtasks
               </label>
-              <div className="checklist-input-group">
+              <div className="flex gap-2 mb-2.5">
                 <input 
                   type="text" 
-                  className="form-input" 
-                  style={{ padding: '8px 12px', fontSize: '13px' }}
+                  className="flex-1 px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-slate-900 text-xs focus:outline-hidden focus:border-indigo-500"
                   placeholder="Add item..."
                   value={subtaskText}
                   onChange={e => setSubtaskText(e.target.value)}
                   onKeyDown={e => { if (e.key === 'Enter') { e.preventDefault(); handleAddSubtask(); } }}
                 />
-                <button type="button" className="btn btn-secondary" style={{ padding: '8px 12px' }} onClick={handleAddSubtask}>
+                <button 
+                  type="button" 
+                  className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition-colors cursor-pointer"
+                  onClick={handleAddSubtask}
+                >
                   Add
                 </button>
               </div>
 
               {newSubtasks.length > 0 && (
-                <div className="checklist-items-list">
+                <div className="flex flex-col gap-1.5 max-h-40 overflow-y-auto">
                   {newSubtasks.map((st, idx) => (
-                    <div key={idx} className="checklist-builder-item">
-                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '80%' }}>
+                    <div key={idx} className="flex items-center justify-between px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-medium text-slate-700">
+                      <span className="truncate max-w-[80%]">
                         {st.title}
                       </span>
                       <button 
                         type="button" 
-                        style={{ border: 'none', background: 'transparent', color: 'var(--danger)', cursor: 'pointer' }}
+                        className="text-slate-400 hover:text-rose-500 cursor-pointer text-sm leading-none"
                         onClick={() => handleRemoveSubtask(idx)}
                       >
                         ✕
@@ -290,34 +303,37 @@ export default function TodoListPage() {
               )}
             </div>
 
-            <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
+            <button 
+              type="submit" 
+              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-sm font-semibold rounded-xl transition-all shadow-xs hover:shadow-sm cursor-pointer"
+            >
               <Plus size={18} /> Add Task
             </button>
           </form>
         </aside>
 
         {/* MAIN PANEL: Filters & Todo Grid */}
-        <main style={{ display: 'flex', flexDirection: 'column' }}>
+        <main className="flex flex-col">
           
           {/* Filters Toolbar */}
-          <div className="toolbar">
-            <div className="search-wrapper">
-              <Search className="search-icon" size={18} />
+          <div className="flex flex-wrap gap-4 items-center justify-between mb-6 p-4 bg-white border border-slate-200 rounded-2xl shadow-xs">
+            <div className="relative flex-1 min-w-[240px]">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
               <input 
                 type="text" 
-                className="search-input" 
+                className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm text-slate-900 focus:outline-hidden focus:bg-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all placeholder:text-slate-400" 
                 placeholder="Search title, description..." 
                 value={search}
                 onChange={e => setSearch(e.target.value)}
               />
             </div>
 
-            <div className="filters-group">
+            <div className="flex flex-wrap items-center gap-2.5">
               {/* Category Filter */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <Folder size={16} style={{ color: 'var(--text-muted)' }} />
+              <div className="flex items-center gap-1.5">
+                <Folder size={15} className="text-slate-400" />
                 <select 
-                  className="filter-select"
+                  className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-hidden focus:border-indigo-500 cursor-pointer transition-colors"
                   value={category}
                   onChange={e => setCategory(e.target.value)}
                 >
@@ -330,7 +346,7 @@ export default function TodoListPage() {
 
               {/* Priority Filter */}
               <select 
-                className="filter-select"
+                className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-hidden focus:border-indigo-500 cursor-pointer transition-colors"
                 value={priority}
                 onChange={e => setPriority(e.target.value)}
               >
@@ -342,7 +358,7 @@ export default function TodoListPage() {
 
               {/* Status Filter */}
               <select 
-                className="filter-select"
+                className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-hidden focus:border-indigo-500 cursor-pointer transition-colors"
                 value={status}
                 onChange={e => setStatus(e.target.value)}
               >
@@ -352,10 +368,10 @@ export default function TodoListPage() {
               </select>
 
               {/* Sort By Select */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <ArrowUpDown size={16} style={{ color: 'var(--text-muted)' }} />
+              <div className="flex items-center gap-1.5">
+                <ArrowUpDown size={15} className="text-slate-400" />
                 <select 
-                  className="filter-select"
+                  className="px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl text-xs font-medium text-slate-700 focus:outline-hidden focus:border-indigo-500 cursor-pointer transition-colors"
                   value={sortBy}
                   onChange={e => setSortBy(e.target.value)}
                 >
@@ -369,8 +385,7 @@ export default function TodoListPage() {
               {/* Order Toggle */}
               <button 
                 type="button" 
-                className="btn-icon-only"
-                style={{ height: '38px', width: '38px' }}
+                className="flex items-center justify-center w-8 h-8 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-600 text-xs font-bold transition-colors cursor-pointer"
                 onClick={() => setOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
                 title={order === 'asc' ? 'Sort Ascending' : 'Sort Descending'}
               >
@@ -381,26 +396,26 @@ export default function TodoListPage() {
 
           {/* Loading / Error States */}
           {loading && todos.length === 0 ? (
-            <div className="loading-container">
-              <div className="loading-spinner"></div>
-              <span>Loading your task workflow...</span>
+            <div className="flex flex-col items-center justify-center py-20 gap-4 text-slate-500">
+              <div className="w-10 h-10 border-4 border-slate-200 border-t-indigo-600 rounded-full animate-spin"></div>
+              <span className="text-sm font-medium">Loading your task workflow...</span>
             </div>
           ) : error ? (
-            <div className="no-todos-state" style={{ borderColor: 'var(--priority-high)' }}>
-              <AlertTriangle size={48} style={{ color: 'var(--priority-high)' }} />
-              <h3 className="no-todos-title" style={{ color: 'var(--priority-high)' }}>Database Error</h3>
-              <p>{error}</p>
+            <div className="flex flex-col items-center justify-center py-16 px-6 text-center bg-white rounded-2xl border border-rose-200 shadow-xs text-rose-600">
+              <AlertTriangle size={44} className="text-rose-500 mb-3" />
+              <h3 className="text-lg font-bold text-slate-900 mb-1">Database Error</h3>
+              <p className="text-sm text-slate-500">{error}</p>
             </div>
           ) : todos.length === 0 ? (
-            <div className="no-todos-state">
-              <CheckSquare size={48} />
-              <h3 className="no-todos-title">No tasks found</h3>
-              <p>Try clearing filters or add a new task on the sidebar.</p>
+            <div className="flex flex-col items-center justify-center py-20 px-6 text-center bg-white rounded-2xl border border-dashed border-slate-300 shadow-xs text-slate-400">
+              <CheckSquare size={48} className="text-slate-300 mb-3" />
+              <h3 className="text-lg font-semibold text-slate-700 mb-1">No tasks found</h3>
+              <p className="text-sm text-slate-400">Try clearing filters or create a new task using the sidebar.</p>
             </div>
           ) : (
             
             /* Todos Grid rendering */
-            <div className="todos-grid">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
               {todos.map(todo => {
                 const totalSubtasks = todo.subtasks?.length || 0;
                 const completedSubtasks = todo.subtasks?.filter(s => s.completed).length || 0;
@@ -409,12 +424,12 @@ export default function TodoListPage() {
                 return (
                   <div 
                     key={todo.id} 
-                    className={`todo-card ${todo.completed ? 'completed-state' : ''}`}
+                    className={`flex flex-col bg-white border border-slate-200 rounded-2xl p-5 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 relative group ${todo.completed ? 'bg-slate-50/70 border-slate-200' : ''}`}
                   >
                     
                     {/* Card Header (Checkbox + Title) */}
-                    <div className="todo-card-header">
-                      <label className="custom-checkbox-wrapper">
+                    <div className="flex items-start gap-3 mb-2.5">
+                      <label className="custom-checkbox-wrapper shrink-0 mt-0.5">
                         <input 
                           type="checkbox" 
                           className="custom-checkbox"
@@ -425,7 +440,7 @@ export default function TodoListPage() {
                       </label>
                       
                       <div 
-                        className="todo-card-title"
+                        className={`text-base font-semibold flex-1 cursor-pointer transition-colors hover:text-indigo-600 ${todo.completed ? 'line-through text-slate-400' : 'text-slate-900'}`}
                         onClick={() => navigate(`/todo?id=${todo.id}`)}
                         title="Click to view details"
                       >
@@ -435,60 +450,67 @@ export default function TodoListPage() {
 
                     {/* Card Description */}
                     {todo.description && (
-                      <p className="todo-card-description">{todo.description}</p>
+                      <p className="text-xs text-slate-500 mb-4 line-clamp-2 leading-relaxed">
+                        {todo.description}
+                      </p>
                     )}
 
                     {/* Progress Bar (Checklist subtasks) */}
                     {totalSubtasks > 0 && (
-                      <div className="subtasks-progress-bar-container">
-                        <div className="progress-label-row">
+                      <div className="flex flex-col gap-1.5 mb-4">
+                        <div className="flex justify-between text-[11px] font-semibold text-slate-400">
                           <span>Checklist Progress</span>
                           <span>{completedSubtasks}/{totalSubtasks} ({percentComplete}%)</span>
                         </div>
-                        <div className="progress-track">
-                          <div className="progress-fill" style={{ width: `${percentComplete}%` }}></div>
+                        <div className="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-gradient-to-r from-indigo-500 to-emerald-500 transition-all duration-300"
+                            style={{ width: `${percentComplete}%` }}
+                          ></div>
                         </div>
                       </div>
                     )}
 
                     {/* Card Footer badges */}
-                    <div className="todo-card-footer">
-                      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                        <span className={`badge badge-${todo.priority}`}>
+                    <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-100">
+                      <div className="flex gap-1.5 flex-wrap items-center">
+                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold capitalize ${
+                          todo.priority === 'high' ? 'bg-rose-50 text-rose-700 border border-rose-200' :
+                          todo.priority === 'medium' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                          'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                        }`}>
                           {todo.priority}
                         </span>
                         {todo.category && (
-                          <span className="badge badge-category">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-600 border border-slate-200">
                             {todo.category}
                           </span>
                         )}
                       </div>
 
                       {todo.dueDate && (
-                        <div className={`due-date-wrapper ${isOverdue(todo) ? 'overdue' : ''}`}>
-                          <Calendar size={14} />
+                        <div className={`flex items-center gap-1 text-xs ${isOverdue(todo) ? 'text-rose-600 font-semibold' : 'text-slate-400'}`}>
+                          <Calendar size={13} />
                           <span>{new Date(todo.dueDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
                         </div>
                       )}
                     </div>
 
                     {/* Float Actions */}
-                    <div className="todo-card-actions" style={{ marginTop: '16px', alignSelf: 'flex-end' }}>
+                    <div className="flex gap-1.5 self-end mt-3 pt-2 border-t border-slate-50 w-full justify-end">
                       <button 
-                        className="btn-icon-only" 
+                        className="flex items-center justify-center w-8 h-8 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors cursor-pointer" 
                         onClick={() => navigate(`/todo?id=${todo.id}`)}
                         title="View Details"
-                        style={{ border: 'none', background: 'var(--primary-light)', color: 'var(--primary)' }}
                       >
-                        <ExternalLink size={15} />
+                        <ExternalLink size={14} />
                       </button>
                       <button 
-                        className="btn-icon-only" 
+                        className="flex items-center justify-center w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors cursor-pointer" 
                         onClick={(e) => handleDelete(todo.id, e)}
                         title="Delete Task"
-                        style={{ border: 'none', background: 'var(--danger-bg)', color: 'var(--danger)' }}
                       >
-                        <Trash2 size={15} />
+                        <Trash2 size={14} />
                       </button>
                     </div>
 

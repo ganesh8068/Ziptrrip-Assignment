@@ -9,6 +9,11 @@ node_modules/
 
 # Local databases & user data
 /backend/todos.json
+.env
+.env.*
+*.env
+!.env.example
+!*.env.example
 
 # Logs
 *.log
