@@ -4,8 +4,7 @@ import {
   ArrowLeft, Calendar, Tag, ShieldAlert, CheckCircle2, 
   Trash2, Edit, Save, Plus, X, ListTodo, FileText, Clock 
 } from 'lucide-react';
-
-const API_BASE = 'http://localhost:5050/api/todos';
+import { API_BASE } from '../config/api';
 
 export default function TodoDetailPage() {
   const [searchParams] = useSearchParams();

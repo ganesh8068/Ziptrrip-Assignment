@@ -5,8 +5,7 @@ import {
   ArrowUpDown, ListChecks, CheckSquare, PlusCircle, Folder, AlertTriangle 
 } from 'lucide-react';
 import Header from '../components/Header';
-
-const API_BASE = 'http://localhost:5050/api/todos';
+import { API_BASE } from '../config/api';
 
 export default function TodoListPage() {
   const navigate = useNavigate();
